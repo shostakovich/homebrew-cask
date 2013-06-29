@@ -1,4 +1,5 @@
 require 'cask/checkable'
+require 'cask/download'
 
 class Cask::Audit
   attr_reader :cask
@@ -9,15 +10,23 @@ class Cask::Audit
     @cask = cask
   end
 
-  def run!
+  def run!(download = nil)
     _check_required_fields
     _check_checksums
     _check_sourceforge_download_url_format
+    _check_download(download) if download
+
     return if errors?
   end
 
   def summary_header
     "audit for #{cask}"
+  end
+
+  def _check_download(download)
+    download.fetch
+  rescue => e
+    add_error "download not possible: #{e.message}"
   end
 
   def _check_required_fields
