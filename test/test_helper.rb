@@ -88,3 +88,6 @@ class TestCask < Cask; end
 
 # also jack in some test casks
 FileUtils.ln_s project_root/'test'/'support', taps_dest/"phinze-testcasks"
+
+
+require 'mocha/setup'
